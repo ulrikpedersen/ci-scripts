@@ -1,4 +1,4 @@
-MODULES="sncseq"
+MODULES="sncseq asyn"
 
 BASE=7.0
 SNCSEQ=R2-2-7
