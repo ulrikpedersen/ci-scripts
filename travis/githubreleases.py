@@ -6,7 +6,15 @@ import re
 import logging
 import argparse
 import requests
-from urllib.parse import urljoin
+try:
+    # python3
+    from urllib.parse import urljoin
+except:
+    pass
+try:
+    from urlparse import urljoin
+except:
+    pass
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -34,26 +42,27 @@ def get_all_pages(github_api_url):
 
     This function follows github api pagination information until all pages for the root url have been read.
     """
-    logging.debug(F'URL: {github_api_url}')
+    logging.debug('URL: {}'.format(github_api_url))
     resp = requests.get(github_api_url, headers={'Accept': GITHUB_API_ACCEPT_HEADER}, auth=GITHUB_AUTH)
     if not resp.ok:
-        logging.debug(F"GET {github_api_url} response: {resp}")
+        logging.debug("GET {} response: {}".format(github_api_url, resp))
         return
 
     result = resp.json()
     while 'next' in resp.links.keys():
         next_url = resp.links['next']['url']
-        logging.debug(F'URL: {next_url}')
+        logging.debug('URL: {}'.format(next_url))
         resp = requests.get(next_url, headers={'Accept': GITHUB_API_ACCEPT_HEADER}, auth=GITHUB_AUTH)
         result.extend(resp.json())
     return result
 
 
 def get_latest_release(organisation, repo):
-    url = urljoin(GITHUB_API_URL, F"repos/{organisation}/{repo}/releases/latest")
+    url = urljoin(GITHUB_API_URL, "repos/{organisation}/{repo}/releases/latest"
+                  .format(organisation=organisation, repo=repo))
     resp = requests.get(url, headers={'Accept': GITHUB_API_ACCEPT_HEADER}, auth=GITHUB_AUTH)
     if not resp.ok:
-        logging.debug(F"GET {url} response: {resp}")
+        logging.debug("GET {} response: {}".format(url, resp))
         return
 
     release = resp.json()
@@ -61,7 +70,8 @@ def get_latest_release(organisation, repo):
 
 
 def get_latest_tag(organisation, repo):
-    url = urljoin(GITHUB_API_URL, F"repos/{organisation}/{repo}/tags")
+    url = urljoin(GITHUB_API_URL, "repos/{organisation}/{repo}/tags"
+                  .format(organisation=organisation, repo=repo))
     tags = get_all_pages(url)
     if tags is None:
         return None
