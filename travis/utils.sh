@@ -141,6 +141,12 @@ add_dependency() {
   recursive=${recursive,,}
   [ "$recursive" != "0" -a "$recursive" != "no" ] && recurse="--recursive"
 
+  if [ "$TAG" == "stable" ]
+  then
+    # Get the latest stable release from github
+    TAG=$(python3 $SCRIPTDIR/githubreleases.py ${REPOOWNER} ${reponame})
+  fi
+
   # determine if $DEP points to a valid release or branch
   git ls-remote --quiet --exit-code --refs $repourl "$TAG" > /dev/null 2>&1 ||
     die "$TAG is neither a tag nor a branch name for $DEP ($repourl)"
