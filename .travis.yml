@@ -34,6 +34,8 @@ addons:
     update: true
 
 install:
+  - python3 --version
+  - python3 travis/githubreleases.py epics-modules asyn
   - ./travis/prepare.sh
 
 script:
