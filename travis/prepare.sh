@@ -206,6 +206,12 @@ for mod in base $MODULES $ADD_MODULES
 do
   mod_uc=${mod^^}
   eval tag=\${${mod_uc}}
+  eval repoowner=\${${mod_uc}_REPOOWNER:=${REPOOWNER:-epics-modules}}
+  if [ "$tag" == "stable" ]
+  then
+    # Get the latest stable release from github
+    tag=$(python3 $SCRIPTDIR/githubreleases.py ${repoowner} ${mod})
+  fi
   eval dir=${CACHEDIR}/\${${mod_uc}_DIRNAME}-$tag
   echo "$modules_to_compile" | grep -q "$dir" && stat="rebuilt" || stat="from cache"
   commit=$(git -C $dir log -n1 --oneline)
