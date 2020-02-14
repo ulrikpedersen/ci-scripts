@@ -74,7 +74,7 @@ jobs:
 # Compile the example application
 # using the build configurations from full makeBaseApp example
 
-  - env: SET=test01
+  - env: VV="" SET=test01
 
 # On the side: test ADD_MODULES
 #  - env: SET=test01 ADD_MODULES=ipac
@@ -131,7 +131,7 @@ jobs:
 # MacOS build
 
 # SNCSEQ 2.2.7 fails to build on MacOS; currently needs master
-  - env: SET=test01 SNCSEQ=master
+  - env: VV="" SET=test01 SNCSEQ=master
     os: osx
     compiler: clang
 
@@ -159,16 +159,16 @@ jobs:
 #    dist: trusty
 
 # SNCSEQ 2.2.7 fails to build on MacOS; currently needs master
-  - env: BASE=R3.15.7 SET=test01 SNCSEQ=master
+  - env: VV="" BASE=R3.15.7 SET=test01 SNCSEQ=master
     os: osx
     compiler: clang
 
 # Base 3.14 builds
 # ================
 
-  - env: BASE=R3.14.12.8 SET=test01
+  - env: VV="" BASE=R3.14.12.8 SET=test01
 
-  - env: BASE=R3.14.12.8 SET=test01 WINE=64 TEST=NO STATIC=YES
+  - env: VV="" BASE=R3.14.12.8 SET=test01 WINE=64 TEST=NO STATIC=YES
     dist: bionic
     compiler: mingw
 
@@ -178,6 +178,6 @@ jobs:
 #    compiler: mingw
 
 # SNCSEQ 2.2.7 fails to build on MacOS; currently needs master
-  - env: BASE=R3.14.12.8 SET=test01 SNCSEQ=master
+  - env: VV="" BASE=R3.14.12.8 SET=test01 SNCSEQ=master
     os: osx
     compiler: clang
