@@ -6,6 +6,9 @@ import re
 import logging
 import argparse
 import requests
+# This is aparently ancient but nothing more modern found built-in to python
+from distutils.version import LooseVersion
+
 try:
     # python3
     from urllib.parse import urljoin
@@ -76,11 +79,11 @@ def get_latest_tag(organisation, repo):
     if tags is None:
         return None
     regexp_version = re.compile(r'^R?\d+[\-\.]\d+([\-\.]\d+)?$')
-    tag_names = [tag['name'] for tag in tags if regexp_version.match(tag['name'])]
+    tag_names = [LooseVersion(tag['name']) for tag in tags if regexp_version.match(tag['name'])]
     tag_names.sort(reverse=True)
     latest_tag_name = tag_names[0]
     for tag in tags:
-        if tag['name'] == latest_tag_name:
+        if tag['name'] == latest_tag_name.vstring:
             return tag
 
 
