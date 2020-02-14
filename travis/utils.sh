@@ -135,7 +135,8 @@ add_dependency() {
   dep_lc=${DEP,,}
   eval dirname=\${${DEP}_DIRNAME:=${dep_lc}}
   eval reponame=\${${DEP}_REPONAME:=${dep_lc}}
-  eval repourl=\${${DEP}_REPOURL:="https://github.com/\${${DEP}_REPOOWNER:=${REPOOWNER:-epics-modules}}/${reponame}.git"}
+  eval repoowner=\${${DEP}_REPOOWNER:=${REPOOWNER:-epics-modules}}
+  eval repourl=\${${DEP}_REPOURL:="https://github.com/${repoowner}/${reponame}.git"}
   eval varname=\${${DEP}_VARNAME:=${DEP}}
   eval recursive=\${${DEP}_RECURSIVE:=1}
   recursive=${recursive,,}
@@ -144,8 +145,8 @@ add_dependency() {
   if [ "$TAG" == "stable" ]
   then
     # Get the latest stable release from github
-    echo "githubreleases.py $("${DEP}_REPOOWNER") ${reponame} (${DEP})"
-    TAG=$(python3 $SCRIPTDIR/githubreleases.py ${REPOOWNER:-epics-modules} ${reponame})
+    echo "githubreleases.py ${repoowner} ${reponame} (${DEP})"
+    TAG=$(python3 $SCRIPTDIR/githubreleases.py ${repoowner} ${reponame})
   fi
 
   # determine if $DEP points to a valid release or branch
