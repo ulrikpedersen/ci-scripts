@@ -144,8 +144,8 @@ add_dependency() {
   if [ "$TAG" == "stable" ]
   then
     # Get the latest stable release from github
-    echo "githubreleases.py ${REPOOWNER} ${reponame} (${DEP})"
-    #TAG=$(python3 $SCRIPTDIR/githubreleases.py ${REPOOWNER} ${reponame})
+    echo "githubreleases.py $("${DEP}_REPOOWNER") ${reponame} (${DEP})"
+    TAG=$(python3 $SCRIPTDIR/githubreleases.py ${REPOOWNER:-epics-modules} ${reponame})
   fi
 
   # determine if $DEP points to a valid release or branch
