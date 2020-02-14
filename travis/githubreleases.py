@@ -114,9 +114,11 @@ def main():
         return -1
 
     if args.tarball:
-        sys.stdout.write(release['tarball_url'])
+        result = release['tarball_url']
         return 0
-    sys.stdout.write(release['tag_name'])
+    result = release['tag_name']
+    logging.debug("{}/{} latest stable: {}".format(args.organisation, args.repo, result))
+    sys.stdout.write(result)
     return 0
 
 
